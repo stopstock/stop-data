@@ -1,1 +1,170 @@
-[]
+[
+  {
+    "date": "2026-04-01",
+    "updated_at": "2026-04-01T23:51:02.028006+09:00",
+    "stop_high": [
+      {
+        "code": "2033",
+        "name": "東EN",
+        "market": "",
+        "price": "",
+        "change": "50310",
+        "rate": "S",
+        "per": "+16.16%",
+        "pbr": ""
+      },
+      {
+        "code": "278A",
+        "name": "東Ｇ",
+        "market": "",
+        "price": "",
+        "change": "4495",
+        "rate": "S",
+        "per": "+18.45%",
+        "pbr": ""
+      },
+      {
+        "code": "3077",
+        "name": "東Ｓ",
+        "market": "",
+        "price": "",
+        "change": "760",
+        "rate": "",
+        "per": "+14.80%",
+        "pbr": ""
+      },
+      {
+        "code": "3294",
+        "name": "東Ｓ",
+        "market": "",
+        "price": "",
+        "change": "2316",
+        "rate": "S",
+        "per": "+20.88%",
+        "pbr": ""
+      },
+      {
+        "code": "3512",
+        "name": "東Ｓ",
+        "market": "",
+        "price": "",
+        "change": "1018",
+        "rate": "S",
+        "per": "+17.28%",
+        "pbr": ""
+      },
+      {
+        "code": "4259",
+        "name": "東Ｇ",
+        "market": "",
+        "price": "",
+        "change": "661",
+        "rate": "S",
+        "per": "+17.83%",
+        "pbr": ""
+      },
+      {
+        "code": "4565",
+        "name": "東Ｐ",
+        "market": "",
+        "price": "",
+        "change": "1015",
+        "rate": "",
+        "per": "+16.40%",
+        "pbr": ""
+      },
+      {
+        "code": "4840",
+        "name": "東Ｓ",
+        "market": "",
+        "price": "",
+        "change": "788",
+        "rate": "S",
+        "per": "+14.53%",
+        "pbr": ""
+      },
+      {
+        "code": "485A",
+        "name": "東Ｇ",
+        "market": "",
+        "price": "",
+        "change": "5330",
+        "rate": "S",
+        "per": "+15.24%",
+        "pbr": ""
+      },
+      {
+        "code": "4884",
+        "name": "東Ｇ",
+        "market": "",
+        "price": "",
+        "change": "487",
+        "rate": "S",
+        "per": "+19.66%",
+        "pbr": ""
+      },
+      {
+        "code": "6580",
+        "name": "東Ｇ",
+        "market": "",
+        "price": "",
+        "change": "1132",
+        "rate": "S",
+        "per": "+15.27%",
+        "pbr": ""
+      },
+      {
+        "code": "7066",
+        "name": "東Ｇ",
+        "market": "",
+        "price": "",
+        "change": "564",
+        "rate": "S",
+        "per": "+16.53%",
+        "pbr": ""
+      },
+      {
+        "code": "8289",
+        "name": "東Ｓ",
+        "market": "",
+        "price": "",
+        "change": "537",
+        "rate": "S",
+        "per": "+17.51%",
+        "pbr": ""
+      }
+    ],
+    "stop_low": [
+      {
+        "code": "3370",
+        "name": "東Ｓ",
+        "market": "",
+        "price": "",
+        "change": "396",
+        "rate": "",
+        "per": "-12.97%",
+        "pbr": ""
+      },
+      {
+        "code": "3681",
+        "name": "東Ｐ",
+        "market": "",
+        "price": "",
+        "change": "70",
+        "rate": "S",
+        "per": "-41.67%",
+        "pbr": ""
+      },
+      {
+        "code": "4316",
+        "name": "東Ｇ",
+        "market": "",
+        "price": "",
+        "change": "467",
+        "rate": "S",
+        "per": "-17.64%",
+        "pbr": ""
+      }
+    ]
+  }
+]
