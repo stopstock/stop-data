@@ -28,6 +28,21 @@ def scrape_kabutan(mode: str) -> list[dict]:
     """
     mode='3_1' → ストップ高
     mode='3_2' → ストップ安
+
+    株探のテーブル構造（table.stock_table）:
+    <td class="tac"> コード          ← tds[0]
+    <th class="tal"> 銘柄名          ← th要素（tdではない！）
+    <td class="tac"> 市場            ← tds[1]
+    <td class="gaiyou_icon"> 概要    ← tds[2] スキップ
+    <td class="chart_icon">  チャート ← tds[3] スキップ
+    <td>             株価            ← tds[4]
+    <td>             Sフラグ         ← tds[5] スキップ
+    <td class="w61"> 前日比          ← tds[6]
+    <td class="w50"> 変動率%         ← tds[7]
+    <td class="news_icon"> ニュース  ← tds[8] スキップ
+    <td>             PER             ← tds[9]
+    <td>             PBR             ← tds[10]
+    <td>             利回り          ← tds[11]
     """
     url = f"https://kabutan.jp/warning/?mode={mode}"
     print(f"  Fetching {url}")
@@ -37,45 +52,63 @@ def scrape_kabutan(mode: str) -> list[dict]:
     resp.encoding = "utf-8"
 
     soup = BeautifulSoup(resp.text, "html.parser")
+
+    # メインテーブルを特定（class="stock_table"）
+    table = soup.find("table", class_="stock_table")
+    if not table:
+        print("  警告: stock_table が見つかりません")
+        return []
+
+    tbody = table.find("tbody")
+    if not tbody:
+        return []
+
     stocks = []
-    seen_codes = set()
 
-    # 銘柄コードのリンクを起点にして行を特定
-    for link in soup.select('a[href*="/stock/?code="]'):
-        code = link.get_text(strip=True)
-        if not code or code in seen_codes:
+    for row in tbody.find_all("tr"):
+        tds = row.find_all("td")
+        if len(tds) < 10:
             continue
 
-        row = link.find_parent("tr")
-        if not row:
+        # コード（td[0]のリンクテキスト）
+        code_link = tds[0].find("a")
+        if not code_link:
+            continue
+        code = code_link.get_text(strip=True)
+        if not code:
             continue
 
-        cells = row.find_all("td")
-        if len(cells) < 6:
-            continue
+        # 銘柄名（th要素 class="tal"）
+        name_th = row.find("th", class_="tal")
+        name = name_th.get_text(strip=True) if name_th else ""
 
-        seen_codes.add(code)
+        # 市場（td[1] class="tac"）
+        market = tds[1].get_text(strip=True)
 
-        def cell_text(i):
-            return cells[i].get_text(strip=True) if i < len(cells) else ""
+        # 株価（td[4]）
+        price = tds[4].get_text(strip=True).replace(",", "")
 
-        name       = cell_text(1)
-        market     = cell_text(2)
-        price_raw  = cell_text(3).replace(",", "")
-        change_raw = cell_text(4).replace(",", "")
-        rate_raw   = cell_text(5).replace(",", "").replace("%", "")
+        # 前日比（td[6] class="w61"）
+        change = tds[6].get_text(strip=True).replace(",", "")
 
-        # PER / PBR / 利回り（あれば）
-        per = cell_text(7).replace(",", "") if len(cells) > 7 else ""
-        pbr = cell_text(8).replace(",", "") if len(cells) > 8 else ""
+        # 変動率（td[7] class="w50"、末尾の % を除去）
+        rate = tds[7].get_text(strip=True).replace("%", "").strip()
+
+        # PER / PBR（td[9] / td[10]、「－」は空文字に）
+        def clean_val(td):
+            v = td.get_text(strip=True).replace(",", "")
+            return "" if "－" in v or v == "-" else v
+
+        per = clean_val(tds[9])
+        pbr = clean_val(tds[10])
 
         stocks.append({
             "code":   code,
             "name":   name,
             "market": market,
-            "price":  price_raw,
-            "change": change_raw,
-            "rate":   rate_raw,
+            "price":  price,
+            "change": change,
+            "rate":   rate,
             "per":    per,
             "pbr":    pbr,
         })
