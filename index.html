@@ -139,6 +139,22 @@
     .pos { color: var(--high); font-weight: 600; }
     .neg { color: var(--low);  font-weight: 600; }
 
+    /* ===== Icon links ===== */
+    .icon-link {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      vertical-align: middle;
+      line-height: 1.6;
+    }
+    .icon-link:hover { opacity: 0.75; }
+    .icon-x { background: #000; color: #fff; margin-top: 4px; display: block; width: fit-content; }
+    .icon-y { background: #e60012; color: #fff; margin-left: 4px; }
+    .icon-k { background: #e67e22; color: #fff; margin-left: 4px; }
+
     /* ===== States ===== */
     .center-msg { text-align: center; padding: 40px; color: #999; }
     .error-msg  { text-align: center; padding: 40px; color: #c00; }
@@ -284,7 +300,11 @@
     }
 
     const tbody = rows.map(row => {
-      const yahooUrl = `https://finance.yahoo.co.jp/quote/${row.code}.T`;
+      const yahooUrl   = `https://finance.yahoo.co.jp/quote/${row.code}.T`;
+      const yahooBbsUrl = `https://finance.yahoo.co.jp/cm/message/100${row.code}`;
+      const kabutanUrl = `https://kabutan.jp/stock/?code=${row.code}`;
+      const xUrl       = `https://twitter.com/search?q=${encodeURIComponent(row.code)}+${encodeURIComponent(row.name)}+株&f=live`;
+
       const rateNum  = parseFloat(row.rate) || 0;
       const rateSign = rateNum >= 0 ? '+' : '';
       const rateClass = rateNum >= 0 ? 'pos' : 'neg';
@@ -297,10 +317,10 @@
       const dateDisp = `${+mo}/${+dd}`;
 
       return `<tr class="row-${row.type}">
-        <td>${dateDisp}</td>
+        <td>${dateDisp}<a class="icon-link icon-x" href="${xUrl}" target="_blank" rel="noopener">𝕏</a></td>
         <td><span class="badge badge-${row.type}">${row.type === 'high' ? 'S高' : 'S安'}</span></td>
-        <td><a class="code-link" href="${yahooUrl}" target="_blank" rel="noopener">${row.code}</a></td>
-        <td>${esc(row.name)}</td>
+        <td><a class="code-link" href="${yahooUrl}" target="_blank" rel="noopener">${row.code}</a><a class="icon-link icon-y" href="${yahooBbsUrl}" target="_blank" rel="noopener">Y</a></td>
+        <td>${esc(row.name)}<a class="icon-link icon-k" href="${kabutanUrl}" target="_blank" rel="noopener">K</a></td>
         <td class="hide-sp">${esc(row.market || '-')}</td>
         <td>${price}</td>
         <td class="${row.type === 'high' ? 'pos' : 'neg'}">${change}</td>
