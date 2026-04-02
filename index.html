@@ -242,7 +242,19 @@
     try {
       const resp = await fetch('data/stock_data.json');
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      allData = await resp.json();
+      const raw = await resp.json();
+      // 旧フォーマット（array）を新フォーマット（dict）に変換
+      if (Array.isArray(raw)) {
+        raw.forEach(d => {
+          const m = d.date.slice(0, 7);
+          (allData[m] = allData[m] || []).push(d);
+        });
+        Object.keys(allData).forEach(m =>
+          allData[m].sort((a, b) => b.date.localeCompare(a.date))
+        );
+      } else {
+        allData = raw;
+      }
     } catch (e) {
       document.getElementById('mainContent').innerHTML =
         `<div class="error-msg">データの読み込みに失敗しました<br><small>${e.message}</small></div>`;
