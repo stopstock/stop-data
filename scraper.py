@@ -13,18 +13,44 @@ from datetime import datetime, timezone, timedelta
 
 JST = timezone(timedelta(hours=9))
 DATA_FILE = "data/stock_data.json"
-HEADERS = {
+
+# Chrome 124 相当のフルヘッダーセット（Kabutan の bot 検出を回避）
+BASE_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/120.0.0.0 Safari/537.36"
+        "Chrome/124.0.0.0 Safari/537.36"
     ),
-    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Language": "ja-JP,ja;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Accept-Encoding": "gzip, deflate, br",
+    "sec-ch-ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
+    "Cache-Control": "max-age=0",
 }
 
 
-def scrape_kabutan(mode: str) -> list[dict]:
+def make_session() -> requests.Session:
+    """セッションを作成し、トップページを訪問してCookieを取得する"""
+    s = requests.Session()
+    s.headers.update(BASE_HEADERS)
+    try:
+        # トップページを先に取得してCookieとセッションを確立
+        s.headers.update({"Referer": ""})
+        s.get("https://kabutan.jp/", timeout=15)
+        time.sleep(1)
+    except Exception:
+        pass
+    return s
+
+
+def scrape_kabutan(session: requests.Session, mode: str) -> list[dict]:
     """
     mode='3_1' → ストップ高
     mode='3_2' → ストップ安
@@ -47,7 +73,8 @@ def scrape_kabutan(mode: str) -> list[dict]:
     url = f"https://kabutan.jp/warning/?mode={mode}"
     print(f"  Fetching {url}")
 
-    resp = requests.get(url, headers=HEADERS, timeout=30)
+    session.headers.update({"Referer": "https://kabutan.jp/"})
+    resp = session.get(url, timeout=30)
     resp.raise_for_status()
     resp.encoding = "utf-8"
 
@@ -150,15 +177,17 @@ def main():
     month_key = now.strftime("%Y-%m")
     print(f"=== 株データ取得: {date_str} ===")
 
+    session = make_session()
+
     try:
         print("ストップ高 取得中...")
-        stop_high = scrape_kabutan("3_1")
+        stop_high = scrape_kabutan(session, "3_1")
         print(f"  → {len(stop_high)} 銘柄")
 
         time.sleep(2)
 
         print("ストップ安 取得中...")
-        stop_low = scrape_kabutan("3_2")
+        stop_low = scrape_kabutan(session, "3_2")
         print(f"  → {len(stop_low)} 銘柄")
 
     except requests.RequestException as e:
