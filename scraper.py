@@ -9,7 +9,9 @@ import json
 import os
 import time
 import sys
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, date, timezone, timedelta
+
+import jpholiday
 
 JST = timezone(timedelta(hours=9))
 DATA_FILE = "data/stock_data.json"
@@ -173,9 +175,15 @@ def save(all_data: dict) -> None:
 
 def main():
     now = datetime.now(JST)
+    today = now.date()
     date_str  = now.strftime("%Y-%m-%d")
     month_key = now.strftime("%Y-%m")
     print(f"=== 株データ取得: {date_str} ===")
+
+    # 土日・祝日はスキップ（カブタンのデータは前営業日のものになるため）
+    if today.weekday() >= 5 or jpholiday.is_holiday(today):
+        print(f"  {date_str} は非営業日のためスキップ")
+        sys.exit(0)
 
     session = make_session()
 
