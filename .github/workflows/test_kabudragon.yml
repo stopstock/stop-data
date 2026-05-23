@@ -1,0 +1,38 @@
+name: Test kabudragon access
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test kabudragon.com fetch
+        run: |
+          python3 -c "
+          import urllib.request, sys
+
+          headers = {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+              'Accept-Language': 'ja-JP,ja;q=0.9',
+              'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          }
+
+          urls = [
+              'https://www.kabudragon.com/ranking/stopdaka.html',
+              'https://www.kabudragon.com/ranking/2026/05/22/stopdaka.html',
+              'https://www.kabudragon.com/ranking/2026/05/22/stopdana.html',
+          ]
+
+          for url in urls:
+              req = urllib.request.Request(url, headers=headers)
+              try:
+                  with urllib.request.urlopen(req, timeout=15) as r:
+                      body = r.read().decode('utf-8', errors='ignore')
+                      # tr タグ数でデータ量を確認
+                      tr_count = body.count('<tr')
+                      print(f'OK  {r.status}  tr={tr_count}  {url}')
+              except Exception as e:
+                  print(f'NG  {e}  {url}')
+                  sys.exit(1)
+          "
