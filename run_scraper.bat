@@ -18,7 +18,7 @@ if %ERRORLEVEL% neq 0 (
 "%GIT%" add data/stock_data.json
 "%GIT%" diff --staged --quiet
 if %ERRORLEVEL% neq 0 (
-    for /f "tokens=1-3 delims=/" %%a in ("%DATE%") do set DATESTR=%%c-%%a-%%b
+    for /f %%d in ('powershell -NoProfile -Command "Get-Date -Format yyyy-MM-dd"') do set DATESTR=%%d
     "%GIT%" commit -m "Update stock data: %DATESTR%"
     "%GIT%" pull --rebase origin main
     "%GIT%" push
