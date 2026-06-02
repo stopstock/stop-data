@@ -4,9 +4,11 @@ cd /d "C:\Users\testuser\Documents\stop-data"
 set LOGFILE=scraper_log.txt
 set PYTHON=C:\Users\testuser\AppData\Local\Python\bin\python.exe
 set GIT=C:\Program Files\Git\cmd\git.exe
-set PATH=C:\Program Files\Git\cmd;%PATH%
+set PATH=C:\Program Files\Git\cmd;C:\Program Files\Git\bin;%PATH%
 
-echo === %DATE% %TIME% === >> %LOGFILE%
+for /f %%d in ('powershell -NoProfile -Command "Get-Date -Format yyyy-MM-dd"') do set DATESTR=%%d
+for /f %%t in ('powershell -NoProfile -Command "Get-Date -Format HH:mm:ss"') do set TIMESTR=%%t
+echo === %DATESTR% %TIMESTR% === >> %LOGFILE%
 
 "%PYTHON%" scraper.py >> %LOGFILE% 2>&1
 if %ERRORLEVEL% neq 0 (
@@ -15,13 +17,28 @@ if %ERRORLEVEL% neq 0 (
     exit /b 0
 )
 
-"%GIT%" add data/stock_data.json
+"%GIT%" add data/stock_data.json >> %LOGFILE% 2>&1
 "%GIT%" diff --staged --quiet
 if %ERRORLEVEL% neq 0 (
-    for /f %%d in ('powershell -NoProfile -Command "Get-Date -Format yyyy-MM-dd"') do set DATESTR=%%d
-    "%GIT%" commit -m "Update stock data: %DATESTR%"
-    "%GIT%" pull --rebase origin main
-    "%GIT%" push
+    "%GIT%" commit -m "Update stock data: %DATESTR%" >> %LOGFILE% 2>&1
+    if %ERRORLEVEL% neq 0 (
+        echo GIT COMMIT FAILED >> %LOGFILE%
+        echo. >> %LOGFILE%
+        exit /b 1
+    )
+    "%GIT%" pull --rebase origin main >> %LOGFILE% 2>&1
+    if %ERRORLEVEL% neq 0 (
+        echo GIT PULL FAILED >> %LOGFILE%
+        "%GIT%" rebase --abort >> %LOGFILE% 2>&1
+        echo. >> %LOGFILE%
+        exit /b 1
+    )
+    "%GIT%" push >> %LOGFILE% 2>&1
+    if %ERRORLEVEL% neq 0 (
+        echo GIT PUSH FAILED >> %LOGFILE%
+        echo. >> %LOGFILE%
+        exit /b 1
+    )
     echo PUSHED: %DATESTR% >> %LOGFILE%
 ) else (
     echo NO CHANGE >> %LOGFILE%
