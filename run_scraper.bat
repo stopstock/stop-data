@@ -21,11 +21,6 @@ if %ERRORLEVEL% neq 0 (
 "%GIT%" diff --staged --quiet
 if %ERRORLEVEL% neq 0 (
     "%GIT%" commit -m "Update stock data: %DATESTR%" >> %LOGFILE% 2>&1
-    if %ERRORLEVEL% neq 0 (
-        echo GIT COMMIT FAILED >> %LOGFILE%
-        echo. >> %LOGFILE%
-        exit /b 1
-    )
     "%GIT%" pull --rebase origin main >> %LOGFILE% 2>&1
     if %ERRORLEVEL% neq 0 (
         echo GIT PULL FAILED >> %LOGFILE%
