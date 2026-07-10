@@ -1,0 +1,6 @@
+name = "stop-data"
+compatibility_date = "2026-07-01"
+main = "worker.js"
+
+[assets]
+directory = "./public"
