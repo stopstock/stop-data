@@ -17,15 +17,24 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Deploy to Cloudflare
+
+      - name: Prepare public dir
+        run: |
+          mkdir -p public
+          rsync -a ./ public/ \
+            --exclude .git --exclude .github \
+            --exclude '*.py' --exclude requirements.txt \
+            --exclude run_scraper.bat --exclude run_scraper.ps1 \
+            --exclude README.md --exclude wrangler.toml \
+            --exclude worker.js --exclude public
+
+      - name: Deploy to Cloudflare Workers
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 035926d851c17dfd9cf096e0884cd474
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "CLOUDFLARE_API_TOKEN not set; skipping Cloudflare deploy."
+            echo "CLOUDFLARE_API_TOKEN not set; skipping."
             exit 0
           fi
-          mkdir -p /tmp/site
-          rsync -a ./ /tmp/site/ --exclude .git --exclude .github --exclude scripts --exclude '*.py' --exclude requirements.txt --exclude README.md
-          npx wrangler@4 deploy --name=stop-data --compatibility-date=2026-07-01 --assets=/tmp/site
+          npx wrangler@4 deploy
