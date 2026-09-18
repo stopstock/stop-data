@@ -1,0 +1,127 @@
+=== 2026/05/23 21:14:14.23 === 
+=== 株データ取得: 2026-05-23 ===
+  2026-05-23 は非営業日のためスキップ
+NO CHANGE 
+ 
+=== 2026/05/25 18:00:39.46 === 
+=== 株データ取得: 2026-05-25 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 15 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 1 銘柄
+完了: data/stock_data.json に保存しました (2026-05 に 12 日分)
+PUSHED:  
+ 
+=== 2026/05/26 19:20:28.33 === 
+=== 株データ取得: 2026-05-26 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 14 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 2 銘柄
+完了: data/stock_data.json に保存しました (2026-05 に 13 日分)
+PUSHED:  
+ 
+=== 2026/05/26 20:51:02.18 === 
+=== 株データ取得: 2026-05-26 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 14 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 2 銘柄
+完了: data/stock_data.json に保存しました (2026-05 に 13 日分)
+PUSHED:  
+ 
+=== 2026/05/27 19:43:44.80 === 
+=== 株データ取得: 2026-05-27 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 15 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 5 銘柄
+完了: data/stock_data.json に保存しました (2026-05 に 14 日分)
+PUSHED:  
+ 
+=== 2026/05/28 16:20:00.13 === 
+=== 株データ取得: 2026-05-28 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 12 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 3 銘柄
+完了: data/stock_data.json に保存しました (2026-05 に 15 日分)
+PUSHED:  
+ 
+=== 2026/05/30 20:37:35.74 === 
+=== 株データ取得: 2026-05-30 ===
+  2026-05-30 は非営業日のためスキップ
+PUSHED:  
+ 
+=== 2026/06/01 16:20:00.31 === 
+=== 株データ取得: 2026-06-01 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 15 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 3 銘柄
+完了: data/stock_data.json に保存しました (2026-06 に 1 日分)
+PUSHED:  
+ 
+=== 2026/06/02 16:20:00.82 === 
+=== 株データ取得: 2026-06-02 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 9 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 4 銘柄
+完了: data/stock_data.json に保存しました (2026-06 に 2 日分)
+PUSHED:  
+ 
+=== 2026-06-03 16:20:04 === 
+=== 株データ取得: 2026-06-03 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 13 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 1 銘柄
+完了: data/stock_data.json に保存しました (2026-06 に 3 日分)
+fatal: detected dubious ownership in repository at 'C:/Users/testuser/Documents/stop-data'
+'C:/Users/testuser/Documents/stop-data' is owned by:
+	DESKTOP-MJPVK64/testuser (S-1-5-21-2284386661-856472092-1177836601-1002)
+but the current user is:
+	NT AUTHORITY/SYSTEM (S-1-5-18)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/testuser/Documents/stop-data
+fatal: detected dubious ownership in repository at 'C:/Users/testuser/Documents/stop-data'
+'C:/Users/testuser/Documents/stop-data' is owned by:
+	DESKTOP-MJPVK64/testuser (S-1-5-21-2284386661-856472092-1177836601-1002)
+but the current user is:
+	NT AUTHORITY/SYSTEM (S-1-5-18)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/testuser/Documents/stop-data
+GIT COMMIT FAILED 
+ 
+=== 2026-06-04 16:20:01 === 
+=== 株データ取得: 2026-06-04 ===
+ストップ高 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_1
+  → 10 銘柄
+ストップ安 取得中...
+  Fetching https://kabutan.jp/warning/?mode=3_2
+  → 5 銘柄
+完了: data/stock_data.json に保存しました (2026-06 に 4 日分)
+[main 52b40f2] Update stock data: 2026-06-04
+ 1 file changed, 158 insertions(+)
+GIT COMMIT FAILED 
+ 
